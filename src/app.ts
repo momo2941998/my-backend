@@ -2,6 +2,7 @@ import App from "./MyApp";
 import dotenv from 'dotenv'
 import Websocket from 'ws'
 import { attachOnMessage, initPacketAcc, initPacketHi, sendWS } from "./tinode/utils";
+import { verifyToken } from "./utils/jwtUtils";
 dotenv.config()
 let http_port = parseInt(process.env.HTTP_PORT || "80000")
 
@@ -25,5 +26,5 @@ ws.on('open', function open() {
   })
 });
 
-
+verifyToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6Ik1PQklGT05FIn0.eyJqdGkiOiIzMDhiNGE0NC05ODA1LTRjMjItOWZkZS03MTk3MTNkZWQ0NjctMTY1NTE3OTQwOCIsImlzcyI6IjMwOGI0YTQ0LTk4MDUtNGMyMi05ZmRlLTcxOTcxM2RlZDQ2NyIsImV4cCI6MTY1NTI2NTgwOCwidXNlcklkIjoiMTExIn0.FK_W8kyzM8YbQ9lp7U7T1miSdAEqngsHoKFx1N-NfsI")
 app.listen()
