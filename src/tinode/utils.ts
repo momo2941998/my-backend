@@ -16,7 +16,7 @@ const userAgent = "TinodeWeb/0.18.3 (Chrome/102.0; MacIntel); tinodejs/0.18.3"
 const userLang = "en-US"
 const platform = "web"
 const version = "0.18.3"
-interface NewUserInfo {
+export interface NewUserInfo {
   username: string, 
   password: string, 
   fullname: string, 
@@ -86,6 +86,17 @@ const initPacketAcc = (user: NewUserInfo) => {
     }
   }
 }
+
+const initLoginBasic = (user:  Pick<NewUserInfo, 'username'|'password'>) => {
+  return {
+    login:{
+      id: getNextUniqueId(),
+      scheme:"basic",
+      secret: toBase64(`${user.username}:${user.password}`),
+    }
+  }
+}
+
 const sendWS = (ws: Websocket, pkt: any, id: string) => {
   let promise = makePromise(id);
   let msg = JSON.stringify(pkt);
@@ -124,6 +135,7 @@ export {
   getNextUniqueId,
   initPacketHi,
   initPacketAcc,
+  initLoginBasic,
   attachOnMessage,
   sendWS
 }
