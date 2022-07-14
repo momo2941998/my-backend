@@ -1,4 +1,4 @@
-import { jwtController } from "./jwt";
+import { userController } from "./user"
 export {
-  jwtController,
+  userController,
 }
