@@ -5,6 +5,9 @@ services:
     image: type-script-base
     container_name: type-script-base-01
     build: .
+    environment:
+      # - NODE_ENV=production
+      - NODE_ENV=dev
     volumes: 
       - $PWD/log/:/usr/src/app/log/
       - $PWD/uploads/:/usr/src/app/uploads/

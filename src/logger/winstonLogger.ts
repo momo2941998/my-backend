@@ -1,6 +1,7 @@
 
 import winston, { createLogger, format, transports } from 'winston'
 import { Transports } from 'winston/lib/winston/transports';
+import { isProductionMode } from '../constants';
 const { combine, timestamp, label, printf, colorize, errors } = format;
 const { File, Console } = transports
 
@@ -17,24 +18,19 @@ let myTransports: winston.transport[] = [
   // - Write all logs with level `info` and below to `combined.log`
   //
   new File({ filename: 'log/error.log', level: 'error' }),
-  new File({ filename: 'log/combined.log', level: 'info' }),
+  new File({ filename: 'log/combined.log', level: isProductionMode ? 'error': 'info' }),
+  new Console({
+      level: isProductionMode ? 'error': 'info',
+      format: combine(
+        errors({ stack: true }),
+        colorize(),
+        label({ label: 'app' }),
+        timestamp(),
+        myFormat,
+      )
+    })
 ]
 
-//
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-//
-if (process.env.NODE_ENV !== 'production') {
-  myTransports.push(new Console({
-    format: combine(
-      errors({ stack: true }),
-      colorize(),
-      label({ label: 'app' }),
-      timestamp(),
-      myFormat,
-    )
-  }))
-}
 
 const logger = createLogger({
   format: combine(
