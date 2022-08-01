@@ -16,8 +16,8 @@ class App {
     this.httpServer = http.createServer(this.app)
     this.controllers = controllers
     this.initializeMiddlewares();
-    this.initializeErrorHandling();
     this.useControllerRoutes()
+    this.initializeErrorHandling();
   }
  
   private initializeMiddlewares() {
