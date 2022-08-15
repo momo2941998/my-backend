@@ -13,7 +13,9 @@ uploadRouter.post('/', uploader.single('file'), (req, res, next) => {
     const error = new Error('Please upload a file')
     return next(error)
   }
-  res.send(file)
+  res.send({
+    uri: file.filename
+  })
 })
 
 export const uploadController: Controller = {
