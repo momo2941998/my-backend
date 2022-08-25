@@ -8,6 +8,7 @@ import {
   downloadController
 } from "./routes"
 import { http_port } from "./constants";
+import { logger } from "./logger";
 
 
 const controllers: Controller[] = [
@@ -17,6 +18,12 @@ const controllers: Controller[] = [
 ]
 const app = new App( controllers ,http_port)
 
+function main () {
+  app.start()
+    .catch((err) => {
+      logger.error(err)
+      process.exit()
+    })
+}
 
-
-app.listen()
+main();

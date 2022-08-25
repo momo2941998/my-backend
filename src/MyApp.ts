@@ -4,6 +4,7 @@ import { logger, morganLogger } from './logger'
 import { assignId, errorMiddleware } from './middleware'
 import http from 'http'
 import cors from 'cors'
+import { connectDatabase } from './dao/connect-database';
 class App {
   public app: express.Application;
   public http_port: number;
@@ -15,6 +16,11 @@ class App {
     this.http_port = http_port;
     this.httpServer = http.createServer(this.app)
     this.controllers = controllers
+  }
+  
+  private async init () {
+    await connectDatabase()
+    logger.info("connect db successfully!")
     this.initializeMiddlewares();
     this.useControllerRoutes()
     this.initializeErrorHandling();
@@ -39,10 +45,15 @@ class App {
     this.app.use(errorMiddleware)
   }
   
-  public listen() {
+  private listen() {
     this.httpServer.listen(this.http_port, () => {
       logger.info(`app running in process: ${process.pid}, at port ${this.http_port}`)
     });
+  }
+
+  public async start () {
+    await this.init() 
+    this.listen()
   }
 }
  
