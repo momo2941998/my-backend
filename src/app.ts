@@ -22,7 +22,6 @@ function main () {
   app.start()
     .catch((err) => {
       logger.error(err)
-      process.exit()
     })
 }
 
