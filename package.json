@@ -6,6 +6,7 @@
     "prestart": "tsc",
     "start": "node dist/app.js",
     "dev": "nodemon src/app.ts",
+    "seed": "ts-node src/init-database.ts",
     "build": "tsc"
   },
   "author": "",
